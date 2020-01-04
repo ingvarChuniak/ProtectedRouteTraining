@@ -29,7 +29,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         return fakeAuth.isAuthenticated ? (
           <Component {...props} />
         ) : (
-          <Redirect to="/login" />
+          <Redirect to={{pathname: "/login", state: {from: props.location}}} />
         );
       }}
     />
@@ -51,9 +51,10 @@ class Login extends React.Component {
 
   render() {
     const { redirectToRefer } = this.state;
+    const {from} = this.props.location.state || {from: {pathname: "/"}}
 
     if (redirectToRefer === true) {
-      return <Redirect to="/" />;
+      return <Redirect to={from} />;
     }
 
     return (
